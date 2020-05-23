@@ -31,7 +31,7 @@ export const loginOrSwitch = (args, options, logger) => {
 };
 
 export const downloadConfig = async (args, options, logger) => {
-  const url = 'https://rawgit.com/m0ngr31/kodi-voice/master/kodi_voice/kodi.config.example';
+  const url = 'https://gmarruda.github.io/kodi.config.example';
   const fileName = 'kodi.config';
 
   if (fs.existsSync(fileName)) {
@@ -206,7 +206,7 @@ export const updateOrDeploySkill = async (args, options, logger) => {
 
         try {
           const url = ctx.dir === 'kanzi' ?
-            'https://api.github.com/repos/m0ngr31/kanzi/releases/latest' :
+            'https://api.github.com/repos/gmarruda/kanzi-pt/releases/latest' :
             'https://api.github.com/repos/m0ngr31/koko/releases/latest';
 
           const request = await axios.request({
@@ -316,6 +316,7 @@ export const updateOrDeploySkill = async (args, options, logger) => {
         const frenchObj = _.cloneDeep(origObj);
         const spanishObj = _.cloneDeep(origObj);
         const italianObj = _.cloneDeep(origObj);
+        const portugueseObj = _.cloneDeep(origObj);
 
         const fullDir = options.sourceDir && options.sourceDir.length ? options.sourceDir : null;
 
@@ -326,6 +327,7 @@ export const updateOrDeploySkill = async (args, options, logger) => {
         if (isKanzi) {
           frenchObj.interactionModel.languageModel.intents = getIntents(ctx.dir, 'fr', fullDir);
           spanishObj.interactionModel.languageModel.intents = getIntents(ctx.dir, 'es', fullDir);
+          portuguseObj.interactionModel.languageModel.intents = getIntents(ctx.dir,  'pt', fullDir);
         }
 
         fse.removeSync(`${ctx.dir}/models/en-US.json`);
@@ -339,6 +341,7 @@ export const updateOrDeploySkill = async (args, options, logger) => {
         fse.removeSync(`${ctx.dir}/models/es-ES.json`);
         fse.removeSync(`${ctx.dir}/models/es-MX.json`);
         fse.removeSync(`${ctx.dir}/models/it-IT.json`);
+        fse.removeSync(`${ctx.dir}/models/pt-BR.json`);
 
         fse.writeJsonSync(`${ctx.dir}/models/en-US.json`, englishObj, jsonOptions);
         fse.writeJsonSync(`${ctx.dir}/models/en-GB.json`, englishObj, jsonOptions);
@@ -353,6 +356,7 @@ export const updateOrDeploySkill = async (args, options, logger) => {
           fse.writeJsonSync(`${ctx.dir}/models/fr-CA.json`, frenchObj, jsonOptions);
           fse.writeJsonSync(`${ctx.dir}/models/es-ES.json`, spanishObj, jsonOptions);
           fse.writeJsonSync(`${ctx.dir}/models/es-MX.json`, spanishObj, jsonOptions);
+          fse.writeJsonSync(`${ctx.dir}/models/pt-BR.json`, portuguseObj, jsonOptions);
         }
       }
     },
@@ -426,7 +430,7 @@ export const generateZip = (args, options, logger) => {
 
         try {
           const url = ctx.dir === 'kanzi' ?
-            'https://api.github.com/repos/m0ngr31/kanzi/releases/latest' :
+            'https://api.github.com/repos/gmarruda/kanzi-pt/releases/latest' :
             'https://api.github.com/repos/m0ngr31/koko/releases/latest';
 
           const request = await axios.request({
